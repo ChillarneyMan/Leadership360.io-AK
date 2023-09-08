@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Page</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Login</h1>
+    <form id="user-form">
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" required><br>
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password" required><br>
+        <input type="submit" value="Login">
+    </form>
+    <p id="errorMessage" style="color: red;"></p>
+
+    <p id="result"></p>
+
+    <script>
+        $(document).ready(function() {
+            console.log('in function');
+            console.info('test1');
+            $('#user-form').on('submit', function(e) {
+                e.preventDefault();
+    
+                let Email = $('#email').val();
+                let password = $('#password').val();
+                console.log(email, password);
+    
+                $.ajax({
+                    url: `http://localhost:3000/getUser`,
+                    type: 'GET',
+                    data: {
+                        email: Email,
+                        password: password
+                    },
+                    success: function(data) {
+                        console.log('success');
+                        console.info('test');
+                        // $('#result').html(`Full name: ${data.UserFname} ${data.UserLname}`);
+                        // Set first name and last name in localStorage
+                        localStorage.setItem('firstName', data.UserFname);
+                        localStorage.setItem('lastName', data.UserLname);
+                        localStorage.setItem('userEmail', data.UserEmail);
+
+                        // Redirect to the other HTML file
+                        window.location.href = 'index.html';
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        document.getElementById("errorMessage").textContent = "Incorrect username or password. Please retry.";
+                        console.log("jqXHR: ", jqXHR);
+                        console.log("textStatus: ", textStatus);
+                        console.log("errorThrown: ", errorThrown);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
