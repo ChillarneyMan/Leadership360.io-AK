@@ -137,6 +137,8 @@ app.get('/getComment', (req, res) => {
 
     console.log(query);
 
+    // hello
+
     db.query(query, [userEmail], (err, result) => {
         if (err) {
             console.error('An error occurred while executing the query');
