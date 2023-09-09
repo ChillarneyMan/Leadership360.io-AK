@@ -137,7 +137,7 @@ app.get('/getComment', (req, res) => {
 
     console.log(query);
 
-    // hello hi
+    // hello hi ayo
 
     db.query(query, [userEmail], (err, result) => {
         if (err) {
