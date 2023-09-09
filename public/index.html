@@ -17,10 +17,6 @@
                 <span class="bar"></span>
             </div>
             <ul class="navbar__menu">
-                
-                <li class="navbar__btn" id="loginBtnContainer">
-                    <!-- Button will be dynamically updated here -->
-                </li>
                 <li class="navbar__item">
                     <a href="#home" class="navbar__links" id="home-page">Home</a>
                 </li>
@@ -33,40 +29,42 @@
                 <li class="navbar__btn">
                     <a href="#sign-up" class="button" id="signup" onclick="redirectToLogin()">Sign Up</a>
                 </li>
+                <li class="navbar__btn" id="loginBtnContainer">
+                </li>
             </ul>
         </div>
     </nav>
 
-    <script>
-       // Update the content in the 'hero__heading' element
-       var firstName = localStorage.getItem('firstName');
-       if (firstName) {
-            // If firstName exists in localStorage, show the logout button
-            loginBtnContainer.innerHTML = `
-            <button onclick="logout()">Logout</button>
-            `;
-        } else {
-            // If firstName doesn't exist in localStorage, show the login button
-            loginBtnContainer.innerHTML = `
-            <a href="login.html"><button>Login</button></a>
-            `;
-        }
-        function logout() {
-            // Clear the firstName from localStorage or perform any other logout actions
-            localStorage.removeItem('firstName');
-            localStorage.removeItem('lastName');
-            localStorage.removeItem('userEmail');
-            // Reload the page or perform any other actions to reflect the logout
-            window.location.reload();
-        }
-    </script>
+<script>
+    // Update the content in the 'hero__heading' element
+    var loginBtnContainer = document.getElementById("loginBtnContainer");
+    var firstName = localStorage.getItem('firstName');
+    if (firstName) {
+        loginBtnContainer.innerHTML = `
+        <button class="button" onclick="logout()">Logout</button>
+        `;
+    } else {
+        loginBtnContainer.innerHTML = `
+        <a href="login.html" class="button">Login</a>
+        `;
+    }     
+    function logout() {
+        // Clear the firstName from localStorage or perform any other logout actions
+        localStorage.removeItem('firstName');
+        localStorage.removeItem('lastName');
+        localStorage.removeItem('userEmail');
+        // Reload the page or perform any other actions to reflect the logout
+        window.location.reload();
+    }
+</script>
+
 
     <div class="hero" id="home">
         <div class="hero__container">
             <!-- The span below will be dynamically updated with the first name -->
             <h1 class="hero__heading">Hello <span id="leader-name"></span>, your report<span> is Ready</span></h1>
             <p class="hero__description">360-Degree Feedback, for Greater Performance</p>
-            <button class="main__btn"><a href="#">Generate Summary</a></button>
+            <button class="main__btn"><a href="summary.html">Generate Summary</a></button>
         </div>
     </div>
 

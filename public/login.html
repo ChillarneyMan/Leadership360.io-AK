@@ -4,21 +4,30 @@
 <head>
     <meta charset="UTF-8">
     <title>Login Page</title>
+    <link rel="stylesheet" href="sign-in-style.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-    <h1>Login</h1>
-    <form id="user-form">
-        <label for="email">Email:</label><br>
-        <input type="email" id="email" name="email" required><br>
-        <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password" required><br>
-        <input type="submit" value="Login">
-    </form>
-    <p id="errorMessage" style="color: red;"></p>
-
-    <p id="result"></p>
-
+    <div class="login-box">
+        <h1>Login</h1>
+        <form id="user-form" class="login-container">
+            <div class = "FormBox">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required><br>
+            </div>
+            <div class = "FormBox">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required><br>
+            </div>
+            <input type="submit" value="Login" id="btn">
+        </form>
+        <p id="errorMessage" style="color: red;"></p>
+        <p id="result"></p>
+        <p>By clicking the Login button, you agree to our <br>
+            <a href="#">Terms and Conditions</a> and <a href="#">Policy Privacy</a></p>
+        <p class="p1">Don't have an account? <a href="newuser.html">Sign Up here</a></p>
+        </div>
+    </div>
     <script>
         $(document).ready(function() {
             console.log('in function');
