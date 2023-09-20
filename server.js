@@ -1,12 +1,12 @@
 // server.js
-require('dotenv').config();
+// require('dotenv').config();
 const express = require('express');
 const mysql = require('mysql');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require('path');
 const session = require('express-session');
-const OpenAI = require('openai');
+// const OpenAI = require('openai');
 
 console.log("Getting the servers ready...");
 
@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+// const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 // MySQL database connection settings
 const db = mysql.createConnection({
@@ -274,101 +274,101 @@ app.get('/getCommentSub', (req, res) => {
 });
 
 // API route (Comment Summary)
-app.get('/getSummary', async (req, res) => {
-    try {
-        const userEmail = req.query.UserEmail;
+// app.get('/getSummary', async (req, res) => {
+//     try {
+//         const userEmail = req.query.UserEmail;
         
-        // Log the entry into the route
-        console.log("Inside /getSummary route");
+//         // Log the entry into the route
+//         console.log("Inside /getSummary route");
         
-        // Log the userEmail received from the query parameters
-        console.log("User email from query params: ", userEmail);
+//         // Log the userEmail received from the query parameters
+//         console.log("User email from query params: ", userEmail);
         
-        let allComments = "";
+//         let allComments = "";
 
-        // Fetch UserID based on UserEmail
-        const userIdQuery = 'SELECT UserID FROM tbluser WHERE UserEmail = ?';
-        const userIdResult = await dbQuery(userIdQuery, [userEmail]);
+//         // Fetch UserID based on UserEmail
+//         const userIdQuery = 'SELECT UserID FROM tbluser WHERE UserEmail = ?';
+//         const userIdResult = await dbQuery(userIdQuery, [userEmail]);
         
-        if(userIdResult.length > 0) {
-            const userId = userIdResult[0].UserID;
+//         if(userIdResult.length > 0) {
+//             const userId = userIdResult[0].UserID;
 
-            // Log the userId received from the database query
-            console.log("User ID from DB query: ", userId);
+//             // Log the userId received from the database query
+//             console.log("User ID from DB query: ", userId);
             
-            // Fetch comments for different tables
-            const queries = [
-                'SELECT * FROM tblcomments WHERE UserID = ?',
-                'SELECT * FROM tblmanagercomments WHERE UserID = ?',
-                'SELECT * FROM tblpeercomments WHERE UserID = ?',
-                'SELECT * FROM tblsubordinatecomments WHERE UserID = ?'
-            ];
+//             // Fetch comments for different tables
+//             const queries = [
+//                 'SELECT * FROM tblcomments WHERE UserID = ?',
+//                 'SELECT * FROM tblmanagercomments WHERE UserID = ?',
+//                 'SELECT * FROM tblpeercomments WHERE UserID = ?',
+//                 'SELECT * FROM tblsubordinatecomments WHERE UserID = ?'
+//             ];
 
-            const commentArrays = await Promise.all(queries.map(query => dbQuery(query, [userId])));
+//             const commentArrays = await Promise.all(queries.map(query => dbQuery(query, [userId])));
             
-            allComments = combineComments(...commentArrays);
+//             allComments = combineComments(...commentArrays);
 
-            // Log all the comments that have been combined
-            console.log("All comments: ", allComments);
+//             // Log all the comments that have been combined
+//             console.log("All comments: ", allComments);
             
-            // Generate summary using OpenAI API
-            const gpt3Response = await openai.completions.create({
-                model: "text-davinci-002",
-                prompt: `Summarize the following comments: ${allComments}`,
-                max_tokens: 50
-            });
+//             // Generate summary using OpenAI API
+//             const gpt3Response = await openai.completions.create({
+//                 model: "text-davinci-002",
+//                 prompt: `Summarize the following comments: ${allComments}`,
+//                 max_tokens: 50
+//             });
 
-            const summary = gpt3Response.choices[0].text.trim();
+//             const summary = gpt3Response.choices[0].text.trim();
             
-            return res.json({ summary });
+//             return res.json({ summary });
 
-        } else {
-            console.log("User not found");
-            return res.status(404).json({ message: "User not found." });
-        }
-    } catch (error) {
-        console.error("An error occurred:", error);
-        return res.status(500).json({ message: "Internal Server Error" });
-    }
-});
+//         } else {
+//             console.log("User not found");
+//             return res.status(404).json({ message: "User not found." });
+//         }
+//     } catch (error) {
+//         console.error("An error occurred:", error);
+//         return res.status(500).json({ message: "Internal Server Error" });
+//     }
+// });
 
-const columnsToInclude = [
-    'Integrity', 
-    'PersonalOrg', 
-    'Improvement', 
-    'Performance', 
-    'Communication', 
-    'Future', 
-    'Change', 
-    'Teamwork', 
-    'Collaboration', 
-    'Achievement', 
-    'Closing'
-  ];
+// const columnsToInclude = [
+//     'Integrity', 
+//     'PersonalOrg', 
+//     'Improvement', 
+//     'Performance', 
+//     'Communication', 
+//     'Future', 
+//     'Change', 
+//     'Teamwork', 
+//     'Collaboration', 
+//     'Achievement', 
+//     'Closing'
+//   ];
 
-// Utility Functions
-function dbQuery(query, params) {
-    return new Promise((resolve, reject) => {
-        db.query(query, params, (err, result) => {
-            if (err) return reject(err);
-            resolve(result);
-        });
-    });
-}
+// // Utility Functions
+// function dbQuery(query, params) {
+//     return new Promise((resolve, reject) => {
+//         db.query(query, params, (err, result) => {
+//             if (err) return reject(err);
+//             resolve(result);
+//         });
+//     });
+// }
 
-function combineComments(...commentArrays) {
-    let combined = "";
-    commentArrays.forEach(comments => {
-        comments.forEach(comment => {
-            columnsToInclude.forEach(column => {
-                if (comment[column]) {
-                    combined += comment[column] + " ";
-                }
-            });
-        });
-    });
-    return combined;
-}
+// function combineComments(...commentArrays) {
+//     let combined = "";
+//     commentArrays.forEach(comments => {
+//         comments.forEach(comment => {
+//             columnsToInclude.forEach(column => {
+//                 if (comment[column]) {
+//                     combined += comment[column] + " ";
+//                 }
+//             });
+//         });
+//     });
+//     return combined;
+// }
 
 
 const port = process.env.PORT || 3000;
